@@ -14,8 +14,10 @@
     "@cliqz/adblocker": "^1.26.6",
     "@types/chrome": "^0.0.245",
     "@types/webextension-polyfill": "^0.10.2",
+    "inversify": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "reflect-metadata": "^0.1.13",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
