@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "My Chrome Extension",
+    "version": "1.0",
+    "description": "A Chrome extension built with Vite and React",
+    "background": {
+        "page": "./background/index.html",
+        "persistent": true
+    },
+    "browser_action": {
+        "default_title": "Tracker Detector",
+        "default_popup": "/popup/index.html"
+    },
+    "permissions": [
+        "activeTab"
+    ]
+}
