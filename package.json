@@ -11,6 +11,9 @@
   "author": "Henry Schwerdtner",
   "license": "MIT",
   "dependencies": {
+    "@types/chrome": "^0.0.245",
+    "@types/webextension-polyfill": "^0.10.2",
+    "webextension-polyfill": "^0.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -24,6 +27,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-static-copy": "^0.17.0"
   }
 }

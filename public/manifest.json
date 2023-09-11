@@ -12,6 +12,14 @@
         "default_popup": "/popup/index.html"
     },
     "permissions": [
-        "activeTab"
+        "background",
+        "webRequest",
+        "webRequestBlocking",
+        "storage",
+        "unlimitedStorage",
+        "downloads",
+        "activeTab",
+        "tabs",
+        "<all_urls>"
     ]
 }
