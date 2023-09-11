@@ -21,5 +21,9 @@
         "activeTab",
         "tabs",
         "<all_urls>"
+    ],
+    "web_accessible_resources": [
+        "*",
+        "tpls/*"
     ]
 }
