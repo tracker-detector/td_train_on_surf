@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { IModel } from "./types";
 import * as tf from "@tensorflow/tfjs";
 
-const model = tf.sequential({
+let model: tf.LayersModel = tf.sequential({
   layers: [
     tf.layers.embedding({
       inputDim: 90,
@@ -39,11 +39,17 @@ const model = tf.sequential({
   ],
 });
 
-// model.compile({ optimizer: "sgd", loss: "meanSquaredError" });
-
 @injectable()
 export class Model implements IModel {
   constructor() {}
+  async init() {
+    try {
+      const loadedModel = await tf.loadLayersModel("localstorage://td");
+      model = loadedModel;
+    } catch {
+      console.log("No model saved yet. Starting with a fresh one.");
+    }
+  }
 
   predict(encodedData: tf.Tensor): number {
     const result = model.predict(encodedData);
@@ -85,7 +91,9 @@ export class Model implements IModel {
         },
       })
       .then((hist) => {
-        cb(hist);
+        model.save("localstorage://td").then(() => {
+          cb(hist);
+        });
       })
       .catch((err) => {
         console.error("Training error:", err);
