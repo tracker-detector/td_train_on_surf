@@ -12,8 +12,10 @@
   "license": "MIT",
   "dependencies": {
     "@cliqz/adblocker": "^1.26.6",
+    "@tensorflow/tfjs": "^4.10.0",
     "@types/chrome": "^0.0.245",
     "@types/webextension-polyfill": "^0.10.2",
+    "better-queue": "^3.8.12",
     "inversify": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
