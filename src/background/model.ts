@@ -44,7 +44,7 @@ export class Model implements IModel {
   constructor(@inject(TYPES.ISettings) private settings: ISettings) {}
   async init() {
     try {
-      const loadedModel = await tf.loadLayersModel("localstorage://td");
+      const loadedModel = await tf.loadLayersModel("indexeddb://td");
       model = loadedModel;
     } catch {
       console.log("No model saved yet. Starting with a fresh one.");
@@ -90,7 +90,7 @@ export class Model implements IModel {
         },
       })
       .then((hist) => {
-        model.save("localstorage://td").then(() => {
+        model.save("indexeddb://td").then(() => {
           cb(hist);
         });
       })

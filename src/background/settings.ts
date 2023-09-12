@@ -1,5 +1,7 @@
+import { injectable } from "inversify";
 import { ISettings } from "./types";
 
+@injectable()
 export class Settings implements ISettings {
   private readonly _chunkSize = 512;
   private readonly _epochs = 7;

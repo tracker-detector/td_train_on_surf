@@ -50,10 +50,13 @@ export class RandomSampler implements ISampler {
       }
     }
 
-    // If not enough true samples, use from window
-    while (trueSamples.length < halfLength && this.window.length > 0) {
+    for (
+      let i = this.window.length - 1;
+      i > 0 && trueSamples.length < halfLength;
+      i--
+    ) {
       trueSamples.push(
-        this.window.shift() as WebRequest.OnBeforeSendHeadersDetailsType
+        this.window[i] as WebRequest.OnBeforeSendHeadersDetailsType
       );
     }
 
