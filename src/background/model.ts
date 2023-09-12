@@ -1,5 +1,5 @@
-import { injectable } from "inversify";
-import { IModel } from "./types";
+import { inject, injectable } from "inversify";
+import { IModel, type ISettings, TYPES } from "./types";
 import * as tf from "@tensorflow/tfjs";
 
 let model: tf.LayersModel = tf.sequential({
@@ -41,7 +41,7 @@ let model: tf.LayersModel = tf.sequential({
 
 @injectable()
 export class Model implements IModel {
-  constructor() {}
+  constructor(@inject(TYPES.ISettings) private settings: ISettings) {}
   async init() {
     try {
       const loadedModel = await tf.loadLayersModel("localstorage://td");
@@ -62,7 +62,6 @@ export class Model implements IModel {
     label: tf.Tensor,
     cb: (hist: tf.History) => void
   ): void {
-    console.log("Start");
     const loss = (pred: tf.Tensor, label: tf.Tensor) =>
       pred.sub(label).square().mean();
     const learningRate = 0.01;
@@ -70,8 +69,8 @@ export class Model implements IModel {
     model.compile({ optimizer: optimizer, loss: loss });
     model
       .fit(data, label, {
-        batchSize: 512,
-        epochs: 7,
+        batchSize: this.settings.chunkSize,
+        epochs: this.settings.epochs,
         verbose: 1,
         shuffle: true,
         yieldEvery: "never",
@@ -98,6 +97,5 @@ export class Model implements IModel {
       .catch((err) => {
         console.error("Training error:", err);
       });
-    console.log("End");
   }
 }

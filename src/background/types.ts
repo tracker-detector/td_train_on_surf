@@ -6,6 +6,7 @@ export const TYPES = {
   IAsyncQueue: Symbol.for("IAsyncQueue"),
   IModel: Symbol.for("IModel"),
   ISampler: Symbol.for("ISampler"),
+  ISettings: Symbol.for("ISettings"),
   IApp: Symbol.for("IApp"),
 };
 export interface ITPLService {
@@ -44,4 +45,14 @@ export interface ISampler {
     X: browser.WebRequest.OnBeforeSendHeadersDetailsType[],
     y: boolean[]
   ): [tf.Tensor, tf.Tensor];
+}
+
+export interface ISettings {
+  get chunkSize(): number;
+  get epochs(): number;
+  get windowSize(): number;
+  get blockingRate(): number;
+  get modelActive(): boolean;
+  get blockingActive(): boolean;
+  updateTrainingHist(lastEpochAcc: number): void;
 }

@@ -1,6 +1,12 @@
 import browser from "webextension-polyfill";
 import { inject, injectable } from "inversify";
-import { IAsyncQueue, TYPES, type IModel, type ISampler } from "./types";
+import {
+  IAsyncQueue,
+  TYPES,
+  type IModel,
+  type ISampler,
+  type ISettings,
+} from "./types";
 @injectable()
 class AsyncQueue implements IAsyncQueue {
   private queue: [
@@ -8,10 +14,11 @@ class AsyncQueue implements IAsyncQueue {
     boolean
   ][] = [];
   private isProcessing: boolean = false;
-  private batchSize: number = 512;
+
   constructor(
     @inject(TYPES.IModel) private model: IModel,
-    @inject(TYPES.ISampler) private sampler: ISampler
+    @inject(TYPES.ISampler) private sampler: ISampler,
+    @inject(TYPES.ISettings) private settings: ISettings
   ) {}
 
   enqueue(
@@ -28,11 +35,11 @@ class AsyncQueue implements IAsyncQueue {
     if (
       this.queue.length === 0 ||
       this.isProcessing ||
-      this.queue.length < this.batchSize
+      this.queue.length < this.settings.chunkSize
     ) {
       return;
     }
-    const batch = this.queue.splice(0, this.batchSize);
+    const batch = this.queue.splice(0, this.settings.chunkSize);
     try {
       const [X, y] = this.sampler.sample(
         batch.map((x) => x[0]),
