@@ -7,12 +7,14 @@ import {
   IModel,
   IExtractor,
   IAsyncQueue,
+  ISampler,
 } from "./types";
 import { TPLBlockerService } from "./blocker";
 import { App } from "./app";
 import { Model } from "./model";
 import { FeatureExtractor203 } from "./featureExtractor";
 import { AsyncQueue } from "./asyncQueue";
+import { RandomSampler } from "./sampler";
 
 const container = new Container();
 container
@@ -20,6 +22,7 @@ container
   .to(TPLBlockerService)
   .inSingletonScope();
 container.bind<IModel>(TYPES.IModel).to(Model).inSingletonScope();
+container.bind<ISampler>(TYPES.ISampler).to(RandomSampler).inSingletonScope();
 container
   .bind<IExtractor>(TYPES.IExtractor)
   .to(FeatureExtractor203)

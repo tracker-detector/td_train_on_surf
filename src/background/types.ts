@@ -5,6 +5,7 @@ export const TYPES = {
   IExtractor: Symbol.for("IExtractor"),
   IAsyncQueue: Symbol.for("IAsyncQueue"),
   IModel: Symbol.for("IModel"),
+  ISampler: Symbol.for("ISampler"),
   IApp: Symbol.for("IApp"),
 };
 export interface ITPLService {
@@ -21,7 +22,10 @@ export interface IExtractor {
 }
 
 export interface IAsyncQueue {
-  enqueue(data: tf.Tensor, label: tf.Tensor): void;
+  enqueue(
+    data: browser.WebRequest.OnBeforeSendHeadersDetailsType,
+    label: boolean
+  ): void;
 }
 
 export interface IModel {
@@ -31,4 +35,12 @@ export interface IModel {
     cb: (hist: tf.History) => void
   ): void;
   predict(encodedData: tf.Tensor): number;
+}
+
+export interface ISampler {
+  addTracker(X: browser.WebRequest.OnBeforeSendHeadersDetailsType): void;
+  sample(
+    X: browser.WebRequest.OnBeforeSendHeadersDetailsType[],
+    y: boolean[]
+  ): [tf.Tensor, tf.Tensor];
 }

@@ -65,8 +65,9 @@ export class Model implements IModel {
     model
       .fit(data, label, {
         batchSize: 512,
-        epochs: 5,
+        epochs: 7,
         verbose: 1,
+        shuffle: true,
         yieldEvery: "never",
         callbacks: {
           onTrainBegin: () => {
