@@ -54,5 +54,6 @@ export interface ISettings {
   get blockingRate(): number;
   get modelActive(): boolean;
   get blockingActive(): boolean;
+  get currentTab(): browser.Tabs.Tab | undefined;
   updateTrainingHist(lastEpochAcc: number): void;
 }

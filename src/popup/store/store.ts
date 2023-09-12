@@ -3,6 +3,8 @@ import browser from "webextension-polyfill";
 type State = {
   currentPage: number;
   setCurrentPage: (value: number) => void;
+  currentTab: browser.Tabs.Tab | undefined;
+  setCurrentTab: (value: browser.Tabs.Tab) => void;
   blockingActive: boolean;
   setBlockingActive: (value: boolean) => void;
   modelActive: boolean;
@@ -22,6 +24,10 @@ const useStore = create<State>((set) => {
     currentPage: 0,
     setCurrentPage(value) {
       set({ currentPage: value });
+    },
+    currentTab: undefined,
+    setCurrentTab(value) {
+      set({ currentTab: value });
     },
     blockingActive: true,
     setBlockingActive(value) {
@@ -66,5 +72,13 @@ browser.storage.local.get().then((value) => {
     blockingRate: value.blockingRate,
   });
 });
+// Updates values that get can be changed by background
+setInterval(() => {
+  browser.storage.local.get("currentTab").then((value) => {
+    useStore.setState({
+      currentTab: value.currentTab as browser.Tabs.Tab,
+    });
+  });
+}, 200);
 
 export default useStore;

@@ -9,6 +9,7 @@ export class Settings implements ISettings {
   private _blockingRate = 0.8;
   private _modelActive = false;
   private _blockingActive = true;
+  private _currentTab: undefined | browser.Tabs.Tab;
   constructor() {
     browser.storage.local.get().then((value) => {
       this._chunkSize = value.chunkSize || this._chunkSize;
@@ -26,6 +27,7 @@ export class Settings implements ISettings {
         blockingActive: this._blockingActive,
       });
     });
+    // updates settings data
     setInterval(() => {
       browser.storage.local.get().then((value) => {
         this._chunkSize = value.chunkSize || this._chunkSize;
@@ -36,8 +38,24 @@ export class Settings implements ISettings {
         this._blockingActive = value.blockingActive || this._blockingActive;
       });
     }, 400);
+    // gets and stores current tab
+    setInterval(
+      () =>
+        browser.tabs
+          .query({ currentWindow: true, lastFocusedWindow: true, active: true })
+          .then((tab) => {
+            if (tab.length == 0) {
+              return;
+            }
+            this._currentTab = tab[0];
+            browser.storage.local.set({ currentTab: this._currentTab });
+          }),
+      200
+    );
   }
-
+  get currentTab(): browser.Tabs.Tab | undefined {
+    return this._currentTab;
+  }
   get chunkSize(): number {
     return this._chunkSize;
   }

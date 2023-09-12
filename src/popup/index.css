@@ -1,6 +1,15 @@
 .frame {
-  min-width: 400px;
-  max-width: 400px;
-  max-height: 600px;
-  min-height: 600px;
+  min-width: 350px;
+  max-width: 350px;
+  max-height: 450px;
+  min-height: 450px;
+}
+.gradient {
+  background: rgb(159, 208, 255);
+  background: linear-gradient(
+    138deg,
+    rgba(159, 208, 255, 1) 0%,
+    rgba(0, 212, 255, 1) 56%,
+    rgba(77, 77, 186, 1) 88%
+  );
 }
