@@ -29,6 +29,7 @@ export interface IAsyncQueue {
 }
 
 export interface IModel {
+  init(): Promise<void>;
   train(
     data: tf.Tensor,
     label: tf.Tensor,

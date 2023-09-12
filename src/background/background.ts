@@ -1,7 +1,8 @@
 import { container } from "./container";
-import { IApp, ITPLService, TYPES } from "./types";
+import { IApp, IModel, ITPLService, TYPES } from "./types";
 
 const tplService = container.get<ITPLService>(TYPES.ITPLService);
-tplService.init().then(() => {
+const model = container.get<IModel>(TYPES.IModel);
+Promise.all([tplService.init(), model.init()]).then(() => {
   container.get<IApp>(TYPES.IApp).start();
 });
