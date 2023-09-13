@@ -6,6 +6,7 @@ import { Home } from "./pages/Home";
 import { Stats } from "./pages/Stats";
 import { Tracker } from "./pages/Tracker";
 import { Requests } from "./pages/Requests";
+import { Settings } from "./pages/Settings";
 
 
 const darkTheme = createTheme({
@@ -20,7 +21,8 @@ const pages : Navigation= {
   0: <Home />,
   1: <Stats />,
   2: <Tracker />,
-  3: <Requests/>
+  3: <Requests />,
+  4: <Settings />
 }
 
 function App() {
