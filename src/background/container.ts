@@ -9,6 +9,7 @@ import {
   IAsyncQueue,
   ISampler,
   ISettings,
+  IStats,
 } from "./types";
 import { TPLBlockerService } from "./blocker";
 import { App } from "./app";
@@ -17,6 +18,7 @@ import { FeatureExtractor203 } from "./featureExtractor";
 import { AsyncQueue } from "./asyncQueue";
 import { RandomSampler } from "./sampler";
 import { Settings } from "./settings";
+import { Stats } from "./stats";
 
 const container = new Container();
 container.bind<ISettings>(TYPES.ISettings).to(Settings).inSingletonScope();
@@ -24,6 +26,7 @@ container
   .bind<ITPLService>(TYPES.ITPLService)
   .to(TPLBlockerService)
   .inSingletonScope();
+container.bind<IStats>(TYPES.IStats).to(Stats).inSingletonScope();
 container.bind<IModel>(TYPES.IModel).to(Model).inSingletonScope();
 container.bind<ISampler>(TYPES.ISampler).to(RandomSampler).inSingletonScope();
 container

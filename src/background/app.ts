@@ -10,6 +10,7 @@ import {
   type IModel,
   type ISampler,
   type ISettings,
+  type IStats,
 } from "./types";
 
 @injectable()
@@ -21,7 +22,8 @@ class App implements IApp {
     @inject(TYPES.IAsyncQueue) private queue: IAsyncQueue,
     @inject(TYPES.IModel) private model: IModel,
     @inject(TYPES.ISampler) private sampler: ISampler,
-    @inject(TYPES.ISettings) private settings: ISettings
+    @inject(TYPES.ISettings) private settings: ISettings,
+    @inject(TYPES.IStats) private stats: IStats
   ) {}
 
   start(): void {
@@ -33,6 +35,7 @@ class App implements IApp {
         }
         const featureVector = this.featureExtractor.extract(details);
         const result = this.model.predict(tf.reshape(featureVector, [1, 203]));
+        this.stats.addRequests(details, label, result);
         this.queue.enqueue(details, label);
         if (this.settings.modelActive) {
           return {

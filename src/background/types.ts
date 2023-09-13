@@ -7,6 +7,7 @@ export const TYPES = {
   IModel: Symbol.for("IModel"),
   ISampler: Symbol.for("ISampler"),
   ISettings: Symbol.for("ISettings"),
+  IStats: Symbol.for("IStats"),
   IApp: Symbol.for("IApp"),
 };
 export interface ITPLService {
@@ -45,6 +46,14 @@ export interface ISampler {
     X: browser.WebRequest.OnBeforeSendHeadersDetailsType[],
     y: boolean[]
   ): [tf.Tensor, tf.Tensor];
+}
+
+export interface IStats {
+  addRequests(
+    details: browser.WebRequest.OnBeforeSendHeadersDetailsType,
+    label: boolean,
+    predict: number
+  ): void;
 }
 
 export interface ISettings {
