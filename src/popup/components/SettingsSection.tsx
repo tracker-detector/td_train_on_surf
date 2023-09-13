@@ -30,12 +30,12 @@ export function SettingsSection() {
                         min={0}
                         max={1}
                         step={0.01}
-                        defaultValue={rate}
+                        value={rate}
                         onChange={(_event, value) => {
                             setRate(value as number);
                         }}
                     aria-label="Small"
-                    valueLabelDisplay="off"
+                        valueLabelDisplay="auto"
                 />
                     <Typography variant="caption">{ Math.floor(rate * 100) }%</Typography>
                 </Stack>

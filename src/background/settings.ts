@@ -17,7 +17,10 @@ export class Settings implements ISettings {
       this._windowSize = value.windowSize || this._windowSize;
       this._blockingRate = value.blockingRate || this._blockingRate;
       this._modelActive = value.modelActive || this._modelActive;
-      this._blockingActive = value.blockingActive || this._blockingActive;
+      this._blockingActive =
+        value.blockingActive === undefined
+          ? this._blockingActive
+          : value.blockingActive;
       browser.storage.local.set({
         chunkSize: this._chunkSize,
         epochs: this._epochs,
@@ -30,12 +33,12 @@ export class Settings implements ISettings {
     // updates settings data
     setInterval(() => {
       browser.storage.local.get().then((value) => {
-        this._chunkSize = value.chunkSize || this._chunkSize;
-        this._epochs = value.epochs || this._epochs;
-        this._windowSize = value.windowSize || this._windowSize;
-        this._blockingRate = value.blockingRate || this._blockingRate;
-        this._modelActive = value.modelActive || this._modelActive;
-        this._blockingActive = value.blockingActive || this._blockingActive;
+        this._chunkSize = value.chunkSize;
+        this._epochs = value.epochs;
+        this._windowSize = value.windowSize;
+        this._blockingRate = value.blockingRate;
+        this._modelActive = value.modelActive ? true : false;
+        this._blockingActive = value.blockingActive ? true : false;
       });
     }, 400);
     // gets and stores current tab
