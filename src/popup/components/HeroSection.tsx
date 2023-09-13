@@ -8,12 +8,12 @@ export const HeroSection = () => {
         <Box className="gradient" >
             <Box className="white-layer" sx={{ px: 2, py: 2 }}>
                 <Grid container spacing={2}>
-                    <Grid xs={2}>
+                    {currentTab && currentTab.favIconUrl ? <Grid xs={2}>
                         <img
                             src={currentTab?.favIconUrl}
                             height="40px"
                         />
-                    </Grid>
+                    </Grid> : <></>}
                     <Grid xs={10}>
                         <Typography variant="h5" component="h5">
                             {currentTab && currentTab.url ? (new URL(currentTab.url)).hostname : "unknown"}
