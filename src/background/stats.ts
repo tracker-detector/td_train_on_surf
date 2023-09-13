@@ -64,6 +64,7 @@ export class Stats implements IStats {
       browser.storage.local.set({
         history: this.metricsHistory[this.settings.currentTab.id],
         metrics: this.metrics[this.settings.currentTab.id],
+        requests: this.store[this.settings.currentTab.id],
       });
     }, 200);
   }

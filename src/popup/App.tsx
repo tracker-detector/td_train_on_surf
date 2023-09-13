@@ -5,6 +5,7 @@ import useStore from "./store/store";
 import { Home } from "./pages/Home";
 import { Stats } from "./pages/Stats";
 import { Tracker } from "./pages/Tracker";
+import { Requests } from "./pages/Requests";
 
 
 const darkTheme = createTheme({
@@ -18,7 +19,8 @@ type Navigation = {
 const pages : Navigation= {
   0: <Home />,
   1: <Stats />,
-  2: <Tracker/>
+  2: <Tracker />,
+  3: <Requests/>
 }
 
 function App() {

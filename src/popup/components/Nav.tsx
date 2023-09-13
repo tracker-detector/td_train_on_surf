@@ -1,8 +1,9 @@
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import BugReportIcon from '@mui/icons-material/BugReport';
 import HomeIcon from '@mui/icons-material/Home';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import HttpIcon from '@mui/icons-material/Http';
 import Paper from '@mui/material/Paper';
 import useStore from '../store/store';
 export const Nav = () => {
@@ -18,8 +19,9 @@ export const Nav = () => {
         }}
       >
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+        <BottomNavigationAction label="Stats" icon={<EqualizerIcon />} />
+          <BottomNavigationAction label="Trackers" icon={<BugReportIcon />} />
+          <BottomNavigationAction label="Requests" icon={<HttpIcon />} />
       </BottomNavigation>
     </Paper>
   );

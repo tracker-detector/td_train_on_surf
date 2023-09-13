@@ -8,6 +8,11 @@ type Metrics = {
   totalNonTracker: number;
   identifiedNonTracker: number;
 };
+
+type LabeledRequest = browser.WebRequest.OnBeforeSendHeadersDetailsType & {
+  tplLabel: boolean;
+  predictValue: number;
+};
 type State = {
   currentPage: number;
   setCurrentPage: (value: number) => void;
@@ -27,8 +32,10 @@ type State = {
   setBlockingRate: (value: number) => void;
   stats: Metrics | undefined;
   setStats: (value: Metrics) => void;
-  history: Metrics[] | undefined;
+  history: Metrics[];
   setHistory: (value: Metrics[]) => void;
+  requests: LabeledRequest[];
+  setRequests: (value: LabeledRequest[]) => void;
 };
 
 const useStore = create<State>((set) => {
@@ -75,9 +82,13 @@ const useStore = create<State>((set) => {
     setStats(value) {
       set({ stats: value });
     },
-    history: undefined,
+    history: [],
     setHistory(value) {
       set({ history: value });
+    },
+    requests: [],
+    setRequests(value) {
+      set({ requests: value });
     },
   };
 });
@@ -107,6 +118,11 @@ setInterval(() => {
   browser.storage.local.get("history").then((value) => {
     useStore.setState({
       history: value.history as Metrics[],
+    });
+  });
+  browser.storage.local.get("requests").then((value) => {
+    useStore.setState({
+      requests: value.requests as LabeledRequest[],
     });
   });
 }, 200);
