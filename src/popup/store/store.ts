@@ -1,5 +1,13 @@
 import { create } from "zustand";
 import browser from "webextension-polyfill";
+
+type Metrics = {
+  mse: number;
+  totalTracker: number;
+  identifiedTracker: number;
+  totalNonTracker: number;
+  identifiedNonTracker: number;
+};
 type State = {
   currentPage: number;
   setCurrentPage: (value: number) => void;
@@ -17,6 +25,10 @@ type State = {
   setWindowSize: (value: number) => void;
   blockingRate: number;
   setBlockingRate: (value: number) => void;
+  stats: Metrics | undefined;
+  setStats: (value: Metrics) => void;
+  history: Metrics[] | undefined;
+  setHistory: (value: Metrics[]) => void;
 };
 
 const useStore = create<State>((set) => {
@@ -59,6 +71,14 @@ const useStore = create<State>((set) => {
       set({ blockingRate: value });
       browser.storage.local.set({ blockingRate: value });
     },
+    stats: undefined,
+    setStats(value) {
+      set({ stats: value });
+    },
+    history: undefined,
+    setHistory(value) {
+      set({ history: value });
+    },
   };
 });
 
@@ -77,6 +97,16 @@ setInterval(() => {
   browser.storage.local.get("currentTab").then((value) => {
     useStore.setState({
       currentTab: value.currentTab as browser.Tabs.Tab,
+    });
+  });
+  browser.storage.local.get("metrics").then((value) => {
+    useStore.setState({
+      stats: value.metrics as Metrics,
+    });
+  });
+  browser.storage.local.get("history").then((value) => {
+    useStore.setState({
+      history: value.history as Metrics[],
     });
   });
 }, 200);

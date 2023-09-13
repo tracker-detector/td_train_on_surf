@@ -3,6 +3,7 @@ import useStore from "../store/store"
 import Grid from '@mui/material/Unstable_Grid2';
 export const HeroSection = () => {
     const currentTab = useStore((state) => state.currentTab);
+    const metrics = useStore((state) => state.stats);
     return (
         <div className="gradient">
             <Grid container spacing={2} sx={{ px: 2, pt: 2 }}>
@@ -19,8 +20,23 @@ export const HeroSection = () => {
                     </Typography>
                 </Grid>
                 </Grid>
-         <br />
-            <br />
+          <Typography variant="h6" component="h5">
+                     Mse   {metrics?.mse }
+            </Typography>
+            <Typography variant="h6" component="h5">
+                    Trackers {metrics?.totalTracker }
+        </Typography>
+
+            <Typography variant="h6" component="h5">
+                       Identified Trackers {metrics?.identifiedTracker }
+            </Typography>
+            <Typography variant="h6" component="h5">
+                    Non-Trackers {metrics?.totalNonTracker }
+        </Typography>
+
+            <Typography variant="h6" component="h5">
+                       Identified Non-Trackers {metrics?.identifiedNonTracker }
+        </Typography>
 
         </div>
     )

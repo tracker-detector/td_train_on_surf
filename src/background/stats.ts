@@ -47,7 +47,7 @@ export class Stats implements IStats {
       delete this.metrics[tabId];
       delete this.metricsHistory[tabId];
     });
-    // Updates metrics every 1000ms
+    // Updates metrics every 200ms
     setInterval(() => {
       if (!this.settings.currentTab || this.settings.currentTab.id == undefined)
         return;
@@ -55,7 +55,7 @@ export class Stats implements IStats {
         history: this.metricsHistory[this.settings.currentTab.id],
         metrics: this.metrics[this.settings.currentTab.id],
       });
-    }, 1000);
+    }, 200);
   }
 
   addRequests(
