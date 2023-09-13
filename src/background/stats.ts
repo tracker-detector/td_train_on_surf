@@ -37,8 +37,18 @@ export class Stats implements IStats {
   constructor(@inject(TYPES.ISettings) private settings: ISettings) {
     // Removes the tab when reloading
     browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
-      if (changeInfo.status === "loading" && changeInfo.url) {
+      if (changeInfo.status === "loading") {
         delete this.store[tabId];
+        if (!this.metricsHistory[tabId]) {
+          this.metricsHistory[tabId] = [];
+        }
+        while (
+          this.metricsHistory[tabId].length >= this.metricsHistoryThreshold
+        ) {
+          this.metricsHistory[tabId].shift();
+        }
+        this.metricsHistory[tabId].push(this.metrics[tabId]);
+        delete this.metrics[tabId];
       }
     });
     // Removes data of tabs that are closed
@@ -86,16 +96,6 @@ export class Stats implements IStats {
         identifiedTracker: this.calculateCorrectlyIdentifiedTrackers(requests),
       };
       this.metrics[parseInt(tabId)] = metrics;
-      if (!this.metricsHistory[parseInt(tabId)]) {
-        this.metricsHistory[parseInt(tabId)] = [];
-      }
-      while (
-        this.metricsHistory[parseInt(tabId)].length >=
-        this.metricsHistoryThreshold
-      ) {
-        this.metricsHistory[parseInt(tabId)].shift();
-      }
-      this.metricsHistory[parseInt(tabId)].push(metrics);
     });
   }
   private calculateMse(requests: LabeledRequest[]): number {

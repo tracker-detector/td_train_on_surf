@@ -12,20 +12,22 @@ const darkTheme = createTheme({
   //   mode: 'dark',
   // },
 });
+type Navigation = {
+  [index: number]: JSX.Element
+}
+const pages : Navigation= {
+  0: <Home />,
+  1: <Stats />,
+  2: <Tracker/>
+}
+
 function App() {
   const currentPage = useStore((state) => state.currentPage)
-  let page = <Home />
-  
-  switch (currentPage) {
-    case 1: page = <Stats />; break;
-    case 2: page = <Tracker />; break;
-  }
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <main className="frame">
-        {page}
+        {pages[currentPage]}
         <Nav />
       </main>
     </ThemeProvider>
