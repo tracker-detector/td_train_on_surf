@@ -15,7 +15,7 @@
         "persistent": true
     },
     "browser_action": {
-        "default_title": "Tracker Detector",
+        "default_title": "Tain On Surf",
         "default_popup": "/popup/index.html"
     },
     "permissions": [
@@ -30,7 +30,6 @@
         "<all_urls>"
     ],
     "web_accessible_resources": [
-        "*",
         "tpls/*"
     ]
 }
