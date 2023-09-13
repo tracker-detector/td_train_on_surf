@@ -1,8 +1,15 @@
 {
     "manifest_version": 2,
-    "name": "My Chrome Extension",
-    "version": "1.0",
-    "description": "A Chrome extension built with Vite and React",
+    "name": "Train On Surf",
+    "version": "1.0.0",
+    "description": "This extension offers a ad and tracking blocker which trains while you surf and when trained enough can be used to block ads and trackers by ML.",
+    "icons": {
+        "32": "./icons/icon32.png",
+        "48": "./icons/icon48.png",
+        "64": "./icons/icon64.png",
+        "96": "./icons/icon96.png",
+        "128": "./icons/icon128.png"
+    },
     "background": {
         "page": "./background/index.html",
         "persistent": true
