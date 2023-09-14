@@ -1,0 +1,56 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - "main"
+
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install Deps
+        run: npm install
+      - name: Build Extension
+        run: npm run build
+      - name: Install jq
+        run: sudo apt-get install -y jq
+      - name: Get Version
+      - name: Extract Version and Set as Env Variable
+        run: |
+          VERSION=$(jq -r '.version' public/manifest.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Check if version changed
+        id: check_version
+        run: |
+          if git rev-parse --verify --quiet refs/tags/${{ env.VERSION }} > /dev/null; then
+            echo "Tag already exists!"
+            echo "::set-output name=changed::false"
+          else 
+            echo "New version detected!"
+            echo "::set-output name=changed::true"
+      - name: Zip release
+        if: steps.check_version.outputs.changed == 'true'
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: zip
+          filename: TrainOnSurf_v${{ env.VERSION }}.zip
+          path: ./dist
+      - name: Release
+        if: steps.check_version.outputs.changed == 'true'
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          artifacts: TrainOnSurf_v${{ env.VERSION }}.zip
+          tag: ${{ env.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
