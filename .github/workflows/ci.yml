@@ -25,7 +25,6 @@ jobs:
         run: npm run build
       - name: Install jq
         run: sudo apt-get install -y jq
-      - name: Get Version
       - name: Extract Version and Set as Env Variable
         run: |
           VERSION=$(jq -r '.version' public/manifest.json)
