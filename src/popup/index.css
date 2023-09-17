@@ -25,3 +25,7 @@
 .translucent {
   background-color: rgba(255, 255, 255, 0.4) !important;
 }
+
+.url-title {
+  word-wrap: break-word;
+}

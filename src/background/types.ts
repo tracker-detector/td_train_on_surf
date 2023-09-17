@@ -8,6 +8,7 @@ export const TYPES = {
   ISampler: Symbol.for("ISampler"),
   ISettings: Symbol.for("ISettings"),
   IStats: Symbol.for("IStats"),
+  ICrawler: Symbol.for("ICrawler"),
   IApp: Symbol.for("IApp"),
 };
 export interface ITPLService {
@@ -54,6 +55,11 @@ export interface IStats {
     label: boolean,
     predict: number
   ): void;
+}
+
+export interface ICrawler {
+  start(): void;
+  stop(): void;
 }
 
 export interface ISettings {

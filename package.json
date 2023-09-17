@@ -12,7 +12,6 @@
   "license": "MIT",
   "dependencies": {
     "@cliqz/adblocker": "^1.26.6",
-    "@material-tailwind/react": "^2.1.1",
     "@mui/icons-material": "^5.14.8",
     "@mui/material": "^5.14.8",
     "@mui/x-charts": "^6.0.0-alpha.10",

@@ -7,6 +7,7 @@ import { Stats } from "./pages/Stats";
 import { Tracker } from "./pages/Tracker";
 import { Requests } from "./pages/Requests";
 import { Settings } from "./pages/Settings";
+import { Stack } from "@mui/material";
 
 
 const darkTheme = createTheme({
@@ -30,10 +31,11 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <main className="frame">
+      <Stack className="frame" spacing={0} direction="column" alignItems="stretch" justifyContent="space-between">
+        
         {pages[currentPage]}
         <Nav />
-      </main>
+      </Stack>
     </ThemeProvider>
   )
 }
