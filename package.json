@@ -18,7 +18,9 @@
     "@tensorflow/tfjs": "^4.10.0",
     "@types/chrome": "^0.0.245",
     "@types/webextension-polyfill": "^0.10.2",
+    "file-saver": "^2.0.5",
     "inversify": "^6.0.1",
+    "jszip": "^3.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reflect-metadata": "^0.1.13",
@@ -26,6 +28,7 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

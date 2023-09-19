@@ -33,6 +33,9 @@ export class Stats implements IStats {
   private metrics: MetricsStore = {};
   private metricsHistory: MetricsHistory = {};
   private metricsHistoryThreshold = 10;
+  private _trainingRunsTotal = 0;
+  private _latestLoss = 1;
+  private _seenRequests = 0;
 
   constructor(@inject(TYPES.ISettings) private settings: ISettings) {
     // Removes the tab when reloading
@@ -65,8 +68,16 @@ export class Stats implements IStats {
         history: this.metricsHistory[this.settings.currentTab.id],
         metrics: this.metrics[this.settings.currentTab.id],
         requests: this.store[this.settings.currentTab.id],
+        seenRequests: this._seenRequests,
+        trainingRuns: this._trainingRunsTotal,
+        latestLoss: this._latestLoss,
       });
     }, 200);
+  }
+  updateTrainingHist(lastEpochAcc: number): void {
+    this._latestLoss = lastEpochAcc;
+    this._trainingRunsTotal++;
+    this._seenRequests = this._trainingRunsTotal * 6 * this.settings.chunkSize;
   }
 
   addRequests(

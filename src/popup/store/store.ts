@@ -36,6 +36,12 @@ type State = {
   setHistory: (value: Metrics[]) => void;
   requests: LabeledRequest[];
   setRequests: (value: LabeledRequest[]) => void;
+  seenRequests: number;
+  setSeenRequests: (value: number) => void;
+  trainingRuns: number;
+  setTrainingRuns: (value: number) => void;
+  latestLoss: number;
+  setLatestLoss: (value: number) => void;
 };
 
 const useStore = create<State>((set) => {
@@ -90,6 +96,18 @@ const useStore = create<State>((set) => {
     setRequests(value) {
       set({ requests: value });
     },
+    latestLoss: 1,
+    setLatestLoss(value) {
+      set({ latestLoss: value });
+    },
+    seenRequests: 0,
+    setSeenRequests(value) {
+      set({ seenRequests: value });
+    },
+    trainingRuns: 0,
+    setTrainingRuns(value) {
+      set({ trainingRuns: value });
+    },
   };
 });
 
@@ -123,6 +141,21 @@ setInterval(() => {
   browser.storage.local.get("requests").then((value) => {
     useStore.setState({
       requests: value.requests as LabeledRequest[],
+    });
+  });
+  browser.storage.local.get("latestLoss").then((value) => {
+    useStore.setState({
+      latestLoss: value.latestLoss as number,
+    });
+  });
+  browser.storage.local.get("seenRequests").then((value) => {
+    useStore.setState({
+      seenRequests: value.seenRequests as number,
+    });
+  });
+  browser.storage.local.get("trainingRuns").then((value) => {
+    useStore.setState({
+      trainingRuns: value.trainingRuns as number,
     });
   });
 }, 200);

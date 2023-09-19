@@ -6,7 +6,7 @@ import { Home } from "./pages/Home";
 import { Stats } from "./pages/Stats";
 import { Tracker } from "./pages/Tracker";
 import { Requests } from "./pages/Requests";
-import { Settings } from "./pages/Settings";
+import { Train } from "./pages/Train";
 import { Stack } from "@mui/material";
 
 
@@ -23,7 +23,7 @@ const pages : Navigation= {
   1: <Stats />,
   2: <Tracker />,
   3: <Requests />,
-  4: <Settings />
+  4: <Train />
 }
 
 function App() {

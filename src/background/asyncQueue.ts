@@ -6,6 +6,7 @@ import {
   type IModel,
   type ISampler,
   type ISettings,
+  type IStats,
 } from "./types";
 @injectable()
 class AsyncQueue implements IAsyncQueue {
@@ -18,7 +19,8 @@ class AsyncQueue implements IAsyncQueue {
   constructor(
     @inject(TYPES.IModel) private model: IModel,
     @inject(TYPES.ISampler) private sampler: ISampler,
-    @inject(TYPES.ISettings) private settings: ISettings
+    @inject(TYPES.ISettings) private settings: ISettings,
+    @inject(TYPES.IStats) private stats: IStats
   ) {}
 
   enqueue(
@@ -47,7 +49,9 @@ class AsyncQueue implements IAsyncQueue {
       );
       this.isProcessing = true;
       this.model.train(X, y, (hist) => {
-        console.log(hist);
+        this.stats.updateTrainingHist(
+          (hist.history["loss"] as number[])[this.settings.epochs - 1]
+        );
         this.isProcessing = false;
         this.processNext();
       });

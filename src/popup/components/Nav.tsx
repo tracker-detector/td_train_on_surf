@@ -23,7 +23,7 @@ export const Nav = () => {
         <BottomNavigationAction label="Stats" icon={<EqualizerIcon />} />
           <BottomNavigationAction label="Trackers" icon={<BugReportIcon />} />
           <BottomNavigationAction label="Requests" icon={<HttpIcon />} />
-          <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+          <BottomNavigationAction label="Train" icon={<SettingsIcon />} />
       </BottomNavigation>
     </Paper>
   );

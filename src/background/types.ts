@@ -55,6 +55,7 @@ export interface IStats {
     label: boolean,
     predict: number
   ): void;
+  updateTrainingHist(lastEpochAcc: number): void;
 }
 
 export interface ICrawler {
@@ -70,5 +71,4 @@ export interface ISettings {
   get modelActive(): boolean;
   get blockingActive(): boolean;
   get currentTab(): browser.Tabs.Tab | undefined;
-  updateTrainingHist(lastEpochAcc: number): void;
 }

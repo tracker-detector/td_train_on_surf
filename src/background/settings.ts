@@ -10,6 +10,7 @@ export class Settings implements ISettings {
   private _modelActive = false;
   private _blockingActive = true;
   private _currentTab: undefined | browser.Tabs.Tab;
+
   constructor() {
     browser.storage.local.get().then((value) => {
       this._chunkSize = value.chunkSize || this._chunkSize;
@@ -76,8 +77,5 @@ export class Settings implements ISettings {
   }
   get blockingActive(): boolean {
     return this._blockingActive;
-  }
-  updateTrainingHist(lastEpochAcc: number): void {
-    console.log(lastEpochAcc);
   }
 }
