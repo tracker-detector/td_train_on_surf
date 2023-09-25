@@ -9,7 +9,15 @@ export class Settings implements ISettings {
   private _blockingRate = 0.8;
   private _modelActive = false;
   private _blockingActive = true;
+  private _totalVisits = 10;
   private _currentTab: undefined | browser.Tabs.Tab;
+  private _trainingList = [
+    "thechive.com",
+    "spiegel.de",
+    "faz.net",
+    "salon.com",
+    "nyt.com",
+  ];
 
   constructor() {
     browser.storage.local.get().then((value) => {
@@ -22,6 +30,7 @@ export class Settings implements ISettings {
         value.blockingActive === undefined
           ? this._blockingActive
           : value.blockingActive;
+      this._trainingList = value.trainingList || this._trainingList;
       browser.storage.local.set({
         chunkSize: this._chunkSize,
         epochs: this._epochs,
@@ -29,6 +38,8 @@ export class Settings implements ISettings {
         blockingRate: this._blockingRate,
         modelActive: this._modelActive,
         blockingActive: this._blockingActive,
+        trainingList: this._trainingList,
+        totalVisits: this._totalVisits,
       });
     });
     // updates settings data
@@ -38,8 +49,10 @@ export class Settings implements ISettings {
         this._epochs = value.epochs;
         this._windowSize = value.windowSize;
         this._blockingRate = value.blockingRate;
+        this._trainingList = value.trainingList;
         this._modelActive = value.modelActive ? true : false;
         this._blockingActive = value.blockingActive ? true : false;
+        this._totalVisits = value.totalVisits;
       });
     }, 400);
     // gets and stores current tab
@@ -77,5 +90,11 @@ export class Settings implements ISettings {
   }
   get blockingActive(): boolean {
     return this._blockingActive;
+  }
+  get trainingList(): string[] {
+    return this._trainingList;
+  }
+  get totalVisits(): number {
+    return this._totalVisits;
   }
 }

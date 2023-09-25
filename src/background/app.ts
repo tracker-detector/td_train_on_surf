@@ -11,6 +11,7 @@ import {
   type ISampler,
   type ISettings,
   type IStats,
+  type IMessages,
 } from "./types";
 
 @injectable()
@@ -23,7 +24,8 @@ class App implements IApp {
     @inject(TYPES.IModel) private model: IModel,
     @inject(TYPES.ISampler) private sampler: ISampler,
     @inject(TYPES.ISettings) private settings: ISettings,
-    @inject(TYPES.IStats) private stats: IStats
+    @inject(TYPES.IStats) private stats: IStats,
+    @inject(TYPES.IMessages) private messages: IMessages
   ) {}
 
   start(): void {
@@ -50,6 +52,7 @@ class App implements IApp {
       App.URL_FILTER,
       ["requestHeaders", "blocking"]
     );
+    this.messages.listen();
     console.log("Application Started");
   }
 }

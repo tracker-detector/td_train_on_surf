@@ -10,6 +10,7 @@ export const TYPES = {
   IStats: Symbol.for("IStats"),
   ICrawler: Symbol.for("ICrawler"),
   IApp: Symbol.for("IApp"),
+  IMessages: Symbol.for("IMessages"),
 };
 export interface ITPLService {
   init(): Promise<void>;
@@ -71,4 +72,10 @@ export interface ISettings {
   get modelActive(): boolean;
   get blockingActive(): boolean;
   get currentTab(): browser.Tabs.Tab | undefined;
+  get totalVisits(): number;
+  get trainingList(): string[];
+}
+
+export interface IMessages {
+  listen(): void;
 }
