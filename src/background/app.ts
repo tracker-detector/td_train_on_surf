@@ -12,6 +12,7 @@ import {
   type ISettings,
   type IStats,
   type IMessages,
+  type ICrawler,
 } from "./types";
 
 @injectable()
@@ -25,7 +26,8 @@ class App implements IApp {
     @inject(TYPES.ISampler) private sampler: ISampler,
     @inject(TYPES.ISettings) private settings: ISettings,
     @inject(TYPES.IStats) private stats: IStats,
-    @inject(TYPES.IMessages) private messages: IMessages
+    @inject(TYPES.IMessages) private messages: IMessages,
+    @inject(TYPES.ICrawler) private crawler: ICrawler
   ) {}
 
   start(): void {
@@ -39,6 +41,14 @@ class App implements IApp {
         const result = this.model.predict(tf.reshape(featureVector, [1, 203]));
         this.stats.addRequests(details, label, result);
         this.queue.enqueue(details, label);
+        const [isActive, ids] = this.crawler.isActive();
+        if (isActive) {
+          console.log("Crawl active");
+          if (ids.includes(details.tabId)) {
+            console.log("Request from crawl allowed");
+            return { cancel: false };
+          }
+        }
         if (this.settings.modelActive) {
           return {
             cancel:

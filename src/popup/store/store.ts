@@ -42,6 +42,8 @@ type State = {
   setTrainingRuns: (value: number) => void;
   latestLoss: number;
   setLatestLoss: (value: number) => void;
+  trainingList: string[];
+  setTrainingList: (value: string[]) => void;
 };
 
 const useStore = create<State>((set) => {
@@ -108,6 +110,10 @@ const useStore = create<State>((set) => {
     setTrainingRuns(value) {
       set({ trainingRuns: value });
     },
+    trainingList: [],
+    setTrainingList(value) {
+      set({ trainingList: value });
+    },
   };
 });
 
@@ -119,6 +125,7 @@ browser.storage.local.get().then((value) => {
     epochs: value.epochs,
     windowSize: value.windowSize,
     blockingRate: value.blockingRate,
+    trainingList: value.trainingList,
   });
 });
 // Updates values that get can be changed by background

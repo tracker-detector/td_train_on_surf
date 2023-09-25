@@ -41,14 +41,13 @@ export class Crawler implements ICrawler {
       const openTab = () => {
         if (tabsOpened < this.settings.totalVisits) {
           browser.tabs
-            .create({ url: url, windowId: this.window!.id })
+            .create({ url: "https://" + url, windowId: this.window!.id })
             .then((tab) => {
               this.currentTabs.push(tab);
               tabsOpened++;
               openTab(); // Recursively open tabs
             });
         } else {
-          // After all tabs are opened, wait for 30 seconds, then close them and open the next set
           setTimeout(() => {
             this.currentTabs.forEach((tab) => {
               browser.tabs.remove(tab.id!);
@@ -74,10 +73,19 @@ export class Crawler implements ICrawler {
     }
   }
 
+  isActive(): [false] | [true, number[]] {
+    if (this.window) {
+      return [true, this.currentTabs.map((x) => x.id!).filter((x) => x)];
+    } else {
+      return [false];
+    }
+  }
+
   pause() {
     this.currentTabs.forEach((tab) => {
       browser.tabs.remove(tab.id!);
     });
+    browser.windows.remove(this.window!.id!);
     this.currentTabs = [];
   }
 }

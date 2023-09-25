@@ -1,6 +1,7 @@
 import { type ICrawler, IMessages, TYPES } from "./types";
 import { Message } from "../events/events";
 import { inject, injectable } from "inversify";
+import browser from "webextension-polyfill";
 @injectable()
 export class Messages implements IMessages {
   constructor(@inject(TYPES.ICrawler) private crawler: ICrawler) {}
@@ -11,12 +12,17 @@ export class Messages implements IMessages {
   };
 
   private handleStartCrawl() {
+    console.log("received start message");
     this.crawler.start();
   }
 
-  private handleStopCrawl() {}
+  private handleStopCrawl() {
+    this.crawler.pause();
+  }
 
-  private handleEndCrawl() {}
+  private handleEndCrawl() {
+    this.crawler.stop();
+  }
 
   listen() {
     browser.runtime.onMessage.addListener((message: Message) => {

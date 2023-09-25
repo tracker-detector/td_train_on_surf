@@ -62,6 +62,8 @@ export interface IStats {
 export interface ICrawler {
   start(): void;
   stop(): void;
+  pause(): void;
+  isActive(): [false] | [true, number[]];
 }
 
 export interface ISettings {
