@@ -1,9 +1,11 @@
 import { Box, List, ListSubheader, ListItem, ListItemText, Link, Typography, Divider, Stack } from "@mui/material"
-import React from "react"
+import React, { useState } from "react"
 import useStore from "../store/store"
+import { Search } from "../components/Search"
 
 export const Tracker = () => {
     const requests = useStore(state => state.requests)
+    const [filter, setFilter] = useState("");
     const trackersRep = requests
         .filter((req) => req.tplLabel)
         .map((x) => {
@@ -42,8 +44,11 @@ export const Tracker = () => {
         </Box>
     }
     return <Box sx={{ px: 2, overflow: "scroll" }}>
-        <List subheader={<ListSubheader>Trackers</ListSubheader>}>
-            {stats.map((value) => (
+        <List subheader={<ListSubheader sx={{pb: 2}}>
+            Trackers
+            <Search sx={undefined} searchPlaceholder="Search Tracker" onChange={setFilter}></Search>
+        </ListSubheader>}>
+            {stats.filter(stat => filter == "" ? true : stat.url.includes(filter)).map((value) => (
                 <>
                     <ListItem
                         key={value.url}
