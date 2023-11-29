@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Train On Surf",
-    "version": "0.0.6",
+    "version": "1.0.0",
     "description": "This extension offers a ad and tracking blocker which trains while you surf and when trained enough can be used to block ads and trackers by ML.",
     "icons": {
         "32": "./icons/icon32.png",
