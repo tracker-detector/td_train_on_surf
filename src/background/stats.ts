@@ -65,7 +65,7 @@ export class Stats implements IStats {
       if (!this.settings.currentTab || this.settings.currentTab.id == undefined)
         return;
       browser.storage.local.set({
-        history: this.metricsHistory[this.settings.currentTab.id],
+        history: this.metricsHistory[this.settings.currentTab.id] == undefined ? [] : this.metricsHistory[this.settings.currentTab.id].filter(x => x != null),
         metrics: this.metrics[this.settings.currentTab.id],
         requests: this.store[this.settings.currentTab.id],
         seenRequests: this._seenRequests,
