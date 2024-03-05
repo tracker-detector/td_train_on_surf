@@ -16,6 +16,8 @@ type LabeledRequest = browser.WebRequest.OnBeforeSendHeadersDetailsType & {
 type State = {
   currentPage: number;
   setCurrentPage: (value: number) => void;
+  outputUrl: string;
+  setOutputUrl: (value: string) => void;
   currentTab: browser.Tabs.Tab | undefined;
   setCurrentTab: (value: browser.Tabs.Tab) => void;
   blockingActive: boolean;
@@ -51,6 +53,11 @@ const useStore = create<State>((set) => {
     currentPage: 0,
     setCurrentPage(value) {
       set({ currentPage: value });
+    },
+    outputUrl: "http://localhost:3000/models/tos",
+    setOutputUrl(value) {
+      set({ outputUrl: value });
+      browser.storage.local.set({ outputUrl: value });
     },
     currentTab: undefined,
     setCurrentTab(value) {
@@ -126,6 +133,7 @@ browser.storage.local.get().then((value) => {
     windowSize: value.windowSize,
     blockingRate: value.blockingRate,
     trainingList: value.trainingList,
+    outputUrl: value.outputUrl,
   });
 });
 // Updates values that get can be changed by background

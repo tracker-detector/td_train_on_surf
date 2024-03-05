@@ -4,6 +4,7 @@ import browser from "webextension-polyfill";
 @injectable()
 export class Settings implements ISettings {
   private _chunkSize = 512;
+  private _outputUrl = "http://localhost:3000/models/tos";
   private _epochs = 7;
   private _windowSize = 512;
   private _blockingRate = 0.8;
@@ -26,6 +27,7 @@ export class Settings implements ISettings {
       this._windowSize = value.windowSize || this._windowSize;
       this._blockingRate = value.blockingRate || this._blockingRate;
       this._modelActive = value.modelActive || this._modelActive;
+      this._outputUrl = value.outputUrl ?? this._outputUrl;
       this._blockingActive =
         value.blockingActive === undefined
           ? this._blockingActive
@@ -40,6 +42,7 @@ export class Settings implements ISettings {
         blockingActive: this._blockingActive,
         trainingList: this._trainingList,
         totalVisits: this._totalVisits,
+        outputUrl: this._outputUrl,
       });
     });
     // updates settings data
@@ -53,6 +56,7 @@ export class Settings implements ISettings {
         this._modelActive = value.modelActive ? true : false;
         this._blockingActive = value.blockingActive ? true : false;
         this._totalVisits = value.totalVisits;
+        this._outputUrl = value.outputUrl;
       });
     }, 400);
     // gets and stores current tab

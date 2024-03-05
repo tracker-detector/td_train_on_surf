@@ -1,6 +1,6 @@
 {
   "name": "td_train_on_surf",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "vite.config.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.14.8",
     "@mui/material": "^5.14.8",
     "@mui/x-charts": "^6.0.0-alpha.10",
-    "@tensorflow/tfjs": "^4.10.0",
+    "@tensorflow/tfjs": "^4.17.0",
     "@types/chrome": "^0.0.245",
     "@types/webextension-polyfill": "^0.10.2",
     "chart.js": "^4.4.0",

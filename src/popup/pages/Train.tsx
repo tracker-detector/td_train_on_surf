@@ -1,8 +1,6 @@
-import { Box, Button, Card, CardActions, CardContent, ListSubheader, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Button, Card, CardActions, CardContent, Input, ListSubheader, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import useStore from "../store/store"
 import * as tf from "@tensorflow/tfjs";
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import browser from "webextension-polyfill";
 
@@ -11,42 +9,22 @@ export const Train = () => {
     const trainingRuns = useStore((state) => state.trainingRuns);
     const latestLoss = useStore((state) => state.latestLoss);
     const trainingList = useStore((state) => state.trainingList);
+    const outputUrl = useStore((state) => state.outputUrl);
+    const setOutputUrl = useStore((state) => state.setOutputUrl);
     const startDownload = async () => {
         const model = await tf.loadLayersModel("indexeddb://td");
-        model.summary();
-
-        const zip = new JSZip();
-
-        await model.save(tf.io.withSaveHandler(async (artifacts) => {
-            let buffers: ArrayBuffer[];
-
-            // Check if weightData is an array or a single ArrayBuffer
-            if (Array.isArray(artifacts.weightData)) {
-                buffers = artifacts.weightData;
-            } else {
-                buffers = [artifacts.weightData as ArrayBuffer];
-            }
-
-            // Loop through each ArrayBuffer and save it as a shard
-            buffers.forEach((buffer, idx) => {
-                const shardFileName = `group1-shard${idx + 1}of${buffers.length}.bin`;
-                zip.file(shardFileName, buffer);
-            });
-
-            // Add model JSON to zip
-            zip.file("model.json", JSON.stringify(artifacts));
-
-            return { modelArtifactsInfo: { dateSaved: new Date(), modelTopologyType: 'JSON' } };
-        }));
-
-        // Generate the zip file and trigger the download
-        zip.generateAsync({ type: "blob" }).then(content => {
-            saveAs(content, "model.zip");
-        });
-    }
+        return await model.save(outputUrl); 
+    };
+    
+    startDownload().then(() => {
+        console.log('Download started successfully');
+    }).catch((err) => {
+        console.error('Error starting download:', err);
+    });
+    
     return <Box sx={{ px: 2, overflow: "scroll" }}>
         <ListSubheader sx={{ mb: 1 }}>Model</ListSubheader>
-        <Card>
+        <Card sx={{width: '100%'}}>
             <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
                     Current Model
@@ -56,8 +34,10 @@ export const Train = () => {
                     Total Requests: {seenRequests} <br />
                     Total Training Runs: {trainingRuns} <br />
                     Latest Loss: {latestLoss}
-                </Typography>
+                </Typography>    
+                <Input sx={{minWidth: '80%', mt: 2}} type="text" value={outputUrl} onChange={(e) => setOutputUrl(e.target.value)}/>
             </CardContent>
+            
             <CardActions>
                 <Button size="small">Reset</Button>
                 <Button size="small" onClick={startDownload}>Download</Button>
